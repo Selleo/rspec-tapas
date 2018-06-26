@@ -32,7 +32,7 @@ it 'sends a notification after checkout' do
 end
 ```
 
-To include this helper only, call `require rspec_tapas/stub_env`
+To include this extension only, call `require rspec_tapas/stub_env`
 
 `StubEnv` is accessible in all types of specs
 
@@ -81,7 +81,7 @@ it 'discards records created at the same time' do
 end
 ```
 
-To include this helper only, call `require rspec_tapas/date_helpers`
+To include this extension only, call `require rspec_tapas/date_helpers`
 
 `DateHelpers` are accessible in all types of specs
 
@@ -104,7 +104,7 @@ RSpec.describe 'users/show.html.erb', type: :view do
 end
 ```
 
-To include this helper only, call `require rspec_tapas/view_page`
+To include this extension only, call `require rspec_tapas/view_page`
 
 `ViewPage` is accessible only in view specs
 
@@ -130,7 +130,7 @@ RSpec.describe 'db:materialize', type: :rake do
 end
 ```
 
-To include this helper only, call `require rspec_tapas/invoke_task`
+To include this extension only, call `require rspec_tapas/invoke_task`
 
 `InvokeTask` is accessible only in rake specs
 
@@ -159,7 +159,7 @@ RSpec.describe ReportMailer, type: :mailer do
 end
 ```
 
-To include this helper only, call `require rspec_tapas/get_message_part`
+To include this extension only, call `require rspec_tapas/get_message_part`
 
 `GetMessagePart` is accessible only in mailer specs
 
@@ -185,6 +185,52 @@ it 'returns user names and emails' do
 end
 ```
 
-To include this helper only, call `require rspec_tapas/json_response`
+To include this extension only, call `require rspec_tapas/json_response`
 
 `JsonResponse` is accessible only in request and controller specs
+
+### DownloadsHelpers
+
+`DownloadsHelpers` is a set of two helpers oriented on facilitating testing downloads. First, we need to allow downloading file in given feature spec by calling `allow_file_downloads(page)`. Then, to get downloaded file contents, we need to use `downloaded_file_contents(file_name)` helper.
+
+To allow downloads with headless-chrome capybara driver, we need to configure it in specific way. See example below:
+
+```ruby
+require 'selenium/webdriver'
+
+Capybara.register_driver :headless_chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-gpu')
+  options.add_argument('--disable-popup-blocking')
+  options.add_argument('--window-size=1920,1200')
+  options.add_preference(
+    :download,
+    directory_upgrade: true,
+    prompt_for_download: false,
+    default_directory: RspecExtensions::DownloadsHelpers::DOWNLOADS_PATH
+  )
+  options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+Capybara.javascript_driver = :headless_chrome
+```
+
+Then, testing downloads is just a matter of few lines of code.
+
+*Example*
+
+```ruby
+allow_file_downloads(page)
+
+click_on 'Download report'
+
+expect(downloaded_file_contents('daily_report.csv')).to eq("Name, Total revenue\nBatman suits, 1000")
+```
+
+To include this extension only, call `require rspec_tapas/downloads_helpers`
+
+`DownloadsHelpers` are accessible only in feature specs
