@@ -16,7 +16,7 @@ then just `bundle install` and require it in `rails_helper.rb`
 require 'rspec_tapas/all'
 ```
 
-## Tapas
+## Helpers
 
 ### StubEnv
 
@@ -246,3 +246,27 @@ To include this extension only, call `require rspec_tapas/downloads_helpers`
 To include this extension only, call `require rspec_tapas/feature_helpers`
 
 `FeatureHelpers` are accessible only in feature specs
+
+## Matchers
+
+### have_table_row
+
+`have_table_row` is a matcher dedicated to finding table rows by their values correlated with specific headers. As so, this is mostly useful in feature specs.
+
+*Examples*
+
+```ruby
+# Asserting headers by their names
+expect(page).to have_table_row('First name' => 'Tony', 'Last name' => 'Stark', 'Rating' => 4.5)
+
+# Asserting headers by their indices
+expect(page).to have_table_row(1 => 'Tony', 2 => 'Stark', 3 => 4.5)
+
+# Asserting headers by their indices - shorter version
+expect(page).to have_table_row('Tony', 'Stark', 4.5)
+
+# Composing matchers
+expect(page).to have_table_row(have_content('ny'), 'Stark')
+```
+
+To include this matcher only, call `require rspec_tapas/matchers/have_table_row`
