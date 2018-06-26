@@ -133,3 +133,32 @@ end
 To include this helper only, call `require rspec_tapas/invoke_task`
 
 `InvokeTask` is accessible only in rake specs
+
+
+### GetMessagePart
+
+`GetMessagePart` is a set of helpers to facilitate extraction of html/plain parts of emails sent. To extract plaintext part from email, use `text_part(mail)`. To extract HTML part, use `html_part(mail)`.
+
+```ruby
+RSpec.describe ReportMailer, type: :mailer do
+  describe '#summary' do
+    it 'creates email containing orders summary' do
+      create_list(:order, 2)
+      mail = ReportMailer.summary
+
+      expect(mail.subject).to eq('Orders summary')
+      expect(html_part(mail)).to include_html(
+        <<~HTML
+            <h1>Orders summary</h1>
+            <strong>Total orders created:</strong> 2 <br /> 
+        HTML
+      )
+      expect(text_part(mail)).to include('Total orders created: 2')
+    end
+  end
+end
+```
+
+To include this helper only, call `require rspec_tapas/get_message_part`
+
+`GetMessagePart` is accessible only in mailer specs
