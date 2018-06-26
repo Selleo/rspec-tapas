@@ -107,3 +107,29 @@ end
 To include this helper only, call `require rspec_tapas/view_page`
 
 `ViewPage` is accessible only in view specs
+
+
+### InvokeTask
+
+`InvokeTask` is a small helper that facilitates calling rake tasks when testing them.
+
+*Example*
+
+```ruby
+RSpec.describe 'db:materialize', type: :rake do
+  it 'materializes db view by name' do
+    database = double(:database)
+    allow(Scenic).to receive(:database) { database }
+    allow(database).to receive(:refresh_materialized_view)
+
+    invoke_task('db:materialize', view_name: 'sample_view')
+
+    expect(database).to \
+      have_received(:refresh_materialized_view).with('sample_view')
+  end
+end
+```
+
+To include this helper only, call `require rspec_tapas/invoke_task`
+
+`InvokeTask` is accessible only in rake specs
