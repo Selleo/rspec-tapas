@@ -1,4 +1,4 @@
-module RspecExRspecExtensionstensions
+module RspecExtensions
   module StubEnv
     def stub_env(name, value)
       allow(ENV).to receive(:fetch).and_wrap_original do |m, *args|

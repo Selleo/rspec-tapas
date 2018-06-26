@@ -3,7 +3,7 @@ module RspecExtensions
   module InvokeTask
     def invoke_task(name, options = {})
       task_path =
-        metadata[:file_path].match(%r{spec/(?<file_path>.*)_spec\.rb})[:file_path]
+        RSpec.current_example.metadata[:file_path].match(%r{spec/(?<file_path>.*)_spec\.rb})[:file_path]
       loaded_files_excluding_current_rake_file =
         $".reject { |file| file == Rails.root.join("#{task_path}.rake").to_s }
       Rake.application = Rake::Application.new
