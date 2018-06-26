@@ -14,10 +14,10 @@ require 'juwelier'
 Juwelier::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://guides.rubygems.org/specification-reference/ for more options
   gem.name = "rspec-tapas"
-  gem.homepage = "http://github.com/stevo/rspec-tapas"
+  gem.homepage = "http://github.com/Selleo/rspec-tapas"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = "A selection of small rSpec extensions"
+  gem.description = "A selection of small rSpec extensions"
   gem.email = "b.kosmowski@selleo.com"
   gem.authors = ["Błażej Kosmowski"]
 
