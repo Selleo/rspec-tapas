@@ -234,3 +234,15 @@ expect(downloaded_file_contents('daily_report.csv')).to eq("Name, Total revenue\
 To include this extension only, call `require rspec_tapas/downloads_helpers`
 
 `DownloadsHelpers` are accessible only in feature specs
+
+### FeatureHelpers
+
+`FeatureHelpers` module contains a couple of methods useful in features specs.
+
+- `display_logs` will display browser logs in console. This is useful for debugging javascript errors in feature specs.
+- `ss` is a shortcut for `page.save_and_open_screenshot`
+- `reload_page` is a handy shortcut for reloading current page.
+
+To include this extension only, call `require rspec_tapas/feature_helpers`
+
+`FeatureHelpers` are accessible only in feature specs
