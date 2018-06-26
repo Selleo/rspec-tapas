@@ -84,3 +84,26 @@ end
 To include this helper only, call `require rspec_tapas/date_helpers`
 
 `DateHelpers` are accessible in all types of specs
+
+### ViewPage
+
+`ViewPage` is a small helper that allows testing views using capybara helpers, usually limited only to feature specs.
+
+*Example*
+
+```ruby
+RSpec.describe 'users/show.html.erb', type: :view do
+  it 'renders user name' do
+    user = create(:user, name: "Tony")
+    allow(view).to receive(:user) { user }
+
+    render
+
+    expect(page).to have_content("Tony")
+  end
+end
+```
+
+To include this helper only, call `require rspec_tapas/view_page`
+
+`ViewPage` is accessible only in view specs
