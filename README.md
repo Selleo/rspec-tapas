@@ -162,3 +162,29 @@ end
 To include this helper only, call `require rspec_tapas/get_message_part`
 
 `GetMessagePart` is accessible only in mailer specs
+
+### JsonResponse
+
+`JsonResponse` is a simple helper that transforms JSON encoded response body to `HashWithIndifferentAccess` or an array of those. This is to facilitate using regular matchers to assert such response.
+
+*Example*
+
+```ruby
+it 'returns user names and emails' do
+  create(:user, name: 'Tony', email: 'tony@stark.dev')
+  create(:user, name: 'Bruce', email: 'bruce@wayne.dev')
+
+  get '/v1/users'
+
+  expect(json_response).to match(
+    data: [
+      { name: 'Tony', email: 'tony@stark.dev' },
+      { name: 'Bruce', email: 'bruce@wayne.dev' },
+    ]
+  )
+end
+```
+
+To include this helper only, call `require rspec_tapas/json_response`
+
+`JsonResponse` is accessible only in request and controller specs
