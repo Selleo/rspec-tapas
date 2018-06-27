@@ -1,24 +1,40 @@
 module RspecExtensions
   module BehaviorDSL
-    def behavior(name)
-      metadata[:description_args].push(name)
-      refresh_description
-      yield
-      metadata[:description_args].pop
-      refresh_description
+    BehaviorNotification = Struct.new(:message)
+    class BehaviorNotification
+      def execution_result
+        RSpec::Core::Example::ExecutionResult.new
+      end
+
+      def description
+        message
+      end
     end
 
-    private
+    def behavior(name, using: nil)
+      if using.present?
+        @controller_actions_called = []
+        callback = lambda do |*args|
+          options = args.extract_options!
+          @controller_actions_called << "#{options[:controller]}##{options[:action]}"
+        end
+        ActiveSupport::Notifications.subscribed(callback, 'start_processing.action_controller') do
+          yield
+        end
 
-    def refresh_description
-      metadata[:description] = metadata[:description_args].join(' ')
-      metadata[:full_description] = \
-      [metadata[:example_group][:full_description]].
-        concat(metadata[:description_args]).join(' ')
+        expect(@controller_actions_called).to(
+          include(using),
+          "expected #{using} to be used for #{name}, but it was not"
+        )
+      else
+        yield
+      end
+
+      reporter.example_passed(BehaviorNotification.new(name))
     end
 
-    def metadata
-      RSpec.current_example.metadata
+    def reporter
+      RSpec.current_example.reporter
     end
   end
 end
