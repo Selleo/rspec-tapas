@@ -12,3 +12,9 @@ group :development do
   gem "juwelier", "~> 2.1.0"
   gem "simplecov", ">= 0"
 end
+
+group :test do
+  gem "rspec"
+  gem "capybara"
+  gem "activesupport"
+end

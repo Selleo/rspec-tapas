@@ -150,7 +150,7 @@ RSpec.describe ReportMailer, type: :mailer do
       expect(html_part(mail)).to include_html(
         <<~HTML
             <h1>Orders summary</h1>
-            <strong>Total orders created:</strong> 2 <br /> 
+            <strong>Total orders created:</strong> 2 <br />
         HTML
       )
       expect(text_part(mail)).to include('Total orders created: 2')
@@ -301,4 +301,4 @@ expect(page).to have_table_row('Tony', 'Stark', 4.5)
 expect(page).to have_table_row(have_content('ny'), 'Stark')
 ```
 
-To include this matcher only, call `require rspec_tapas/matchers/have_table_row`
+To include this matcher use: `config.include RSpecTapas::Matchers`
