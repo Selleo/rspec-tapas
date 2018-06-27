@@ -247,6 +247,38 @@ To include this extension only, call `require rspec_tapas/feature_helpers`
 
 `FeatureHelpers` are accessible only in feature specs
 
+### BehaviorDSL
+
+`BehaviorDSL` module has two roles. First one is to add some syntactic sugar to feature specs, by introducing additional level of describing context, but without interrupting test. This way you can group actions and assertions in readable blocks.
+
+Second role of `BehaviorDSL` is to add capability of asserting feature - controller integration. This way we can ensure, that given block of capybara interactions were using particular controller action.
+
+*Example*
+
+```ruby
+RSpec.describe 'Users management' do
+  scenario do
+    behavior 'Admin browses existing users', using: 'Admin::UsersController#index' do
+      create(:user, name: 'Luke Cage')
+      create(:unit, name: 'Jessica Jones')
+
+      visit '/admin/users'
+
+      expect(page).to have_row_content('Full name' => 'Luke Cage')
+      expect(page).to have_row_content('Full name' => 'Jessica Jones')
+    end
+
+    behavior 'Admin updates existing user' do
+      #...
+    end
+  end
+end
+```
+
+To include this extension only, call `require rspec_tapas/behavior_dsl`
+
+`BehaviorDSL` is accessible only in feature specs
+
 ## Matchers
 
 ### have_table_row
