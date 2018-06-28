@@ -7,7 +7,7 @@ rspec-tapas is a set of small helpers and extensions we often use in [Selleo](ht
 To install rspec-tapas just add following line to your `Gemfile`s `:test` group
 
 ```ruby
-gem 'ruby-tapas'
+gem 'rspec-tapas'
 ```
 
 then just `bundle install` and require it in `rails_helper.rb`
