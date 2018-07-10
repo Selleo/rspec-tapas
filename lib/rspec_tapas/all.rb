@@ -1,4 +1,5 @@
 require_relative 'behavior_dsl'
+require_relative 'date_helpers'
 require_relative 'downloads_helpers'
 require_relative 'feature_helpers'
 require_relative 'get_message_part'
