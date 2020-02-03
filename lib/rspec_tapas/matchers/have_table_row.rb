@@ -1,5 +1,6 @@
 require_relative '../locators/find_table_row.rb'
 require 'rspec/expectations'
+require 'capybara'
 
 Capybara::Session.include FindTableRow
 Capybara::Node::Simple.include FindTableRow
