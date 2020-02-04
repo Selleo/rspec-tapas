@@ -61,7 +61,7 @@ GEM
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
     public_suffix (3.0.2)
-    rack (2.0.5)
+    rack (2.1.2)
     rack-test (1.0.0)
       rack (>= 1.0, < 3)
     rake (12.3.1)
